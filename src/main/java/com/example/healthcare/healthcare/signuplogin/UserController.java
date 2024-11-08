@@ -4,6 +4,8 @@ package com.example.healthcare.healthcare.signuplogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
@@ -15,8 +17,7 @@ public class UserController {
 
     @PostMapping(value = "/signup")
     public String registerUser(@RequestBody UserDto userDto){
-        String signup =service.registerUser(userDto);
-        return signup;
+        return service.registerUser(userDto);
     }
 
 
@@ -31,24 +32,23 @@ public class UserController {
 
 
     @GetMapping(value = "/find")
-    public String findUser(){
+    public List<UserDto> findUser(){
 
-        return null;
+        List<UserDto> allUser=service.findalluser();
+        return allUser;
     }
 
 
 
 
-    @PutMapping(value = "/update")
-    public String updateUser(){
-
-        return null;
+    @PutMapping(value = "/update/{id}")
+    public String updateUser(@RequestBody UserDto dto,@PathVariable String id){
+        return service.updateUser(dto,id);
     }
 
 
-    @DeleteMapping(value = "/delete")
-    public String deleteUser(){
-
-        return null;
+    @DeleteMapping(value = "/delete/{id}")
+    public String deleteUser(@RequestBody UserDto dto,@PathVariable String id){
+        return service.deleteUser(id);
     }
 }

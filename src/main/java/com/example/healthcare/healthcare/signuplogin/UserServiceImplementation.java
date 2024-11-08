@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -30,7 +32,11 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     public List<UserDto> findalluser() {
-        return null;
+
+        ObjectMapper mapper=new ObjectMapper();
+        List<UserEntity> all=userRepository.findAll();
+        List<UserDto> users= Arrays.asList(mapper.convertValue(all,UserDto[].class));
+        return users;
     }
 
     @Override
@@ -40,11 +46,19 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     public String updateUser(UserDto userDto, String Id) {
-        return null;
+        ObjectMapper mapper=new ObjectMapper();
+        Optional<UserEntity> eoptional= userRepository.findById(Id);
+        UserEntity convertValue = mapper.convertValue(userDto,UserEntity.class);
+        convertValue.setId(Long.valueOf(Id));
+        userRepository.save(convertValue);
+        return "User Information Updated";
     }
 
     @Override
     public String deleteUser(String Id) {
-        return null;
+        ObjectMapper mapper=new ObjectMapper();
+
+        userRepository.deleteById(Id);
+        return "User Deleted";
     }
 }

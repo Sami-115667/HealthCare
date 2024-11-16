@@ -1,7 +1,15 @@
-package com.example.healthcare.healthcare.signuplogin;
+package com.example.healthcare.healthcare.service;
 
+import com.example.healthcare.healthcare.jwt.JwtService;
+import com.example.healthcare.healthcare.model.UserEntity;
+import com.example.healthcare.healthcare.repository.UserRepository;
+import com.example.healthcare.healthcare.signuplogin.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -10,11 +18,17 @@ import java.util.Optional;
 
 
 @Service
-public class UserServiceImplementation implements UserService{
+public class UserServiceImplementation implements UserService {
 
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    AuthenticationManager authManager;
+
+    @Autowired
+    JwtService jwtService;
 
 
     @Override
@@ -22,7 +36,7 @@ public class UserServiceImplementation implements UserService{
         ObjectMapper mapper=new ObjectMapper();
         UserEntity convertValue = mapper.convertValue(userDto,UserEntity.class);
         userRepository.save(convertValue);
-        return "User Information Save";
+        return "Registration Successfully";
     }
 
     @Override
@@ -47,7 +61,7 @@ public class UserServiceImplementation implements UserService{
     @Override
     public String updateUser(UserDto userDto, String Id) {
         ObjectMapper mapper=new ObjectMapper();
-        Optional<UserEntity> eoptional= userRepository.findById(Id);
+        Optional<UserEntity> eoptional= userRepository.findById(Integer.valueOf(Id));
         UserEntity convertValue = mapper.convertValue(userDto,UserEntity.class);
         convertValue.setId(Long.valueOf(Id));
         userRepository.save(convertValue);
@@ -58,7 +72,18 @@ public class UserServiceImplementation implements UserService{
     public String deleteUser(String Id) {
         ObjectMapper mapper=new ObjectMapper();
 
-        userRepository.deleteById(Id);
+        userRepository.deleteById(Integer.valueOf(Id));
         return "User Deleted";
+    }
+
+
+
+    @Override
+    public String verify(UserEntity user) {
+        Authentication authentication=
+                authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+        if(authentication.isAuthenticated())
+            return jwtService.generateToken(user.getUsername());
+        return "failed";
     }
 }

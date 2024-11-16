@@ -1,4 +1,4 @@
-package com.example.healthcare.healthcare.signuplogin;
+package com.example.healthcare.healthcare.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -19,11 +19,18 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
+    private String name;
+
 
     @Column(unique = true, nullable = false)  // Ensures email is unique
     private String email;
+
+
+
 
     @Column(nullable = false)
     private String password;

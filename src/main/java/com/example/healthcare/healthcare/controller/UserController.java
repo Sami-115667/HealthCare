@@ -1,7 +1,14 @@
-package com.example.healthcare.healthcare.signuplogin;
+package com.example.healthcare.healthcare.controller;
 
 
+//import com.example.healthcare.healthcare.jwt.JwtMethods;
+import com.example.healthcare.healthcare.model.UserEntity;
+import com.example.healthcare.healthcare.signuplogin.UserDto;
+import com.example.healthcare.healthcare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,11 +29,14 @@ public class UserController {
 
 
 
-    @PostMapping(value = "/login")
-    public String loginUser(){
 
-        return null;
+
+    @PostMapping(value = "/login")
+    public String loginUser(@RequestBody UserEntity user) {
+        System.out.println(user);
+        return service.verify(user);
     }
+
 
 
 

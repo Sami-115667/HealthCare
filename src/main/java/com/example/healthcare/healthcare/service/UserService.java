@@ -22,4 +22,6 @@ public interface UserService {
 //    UserDetails loadUserByname(String username) throws UsernameNotFoundException;
 
     String verify(UserEntity user);
+
+    UserEntity myProfile(String username);
 }

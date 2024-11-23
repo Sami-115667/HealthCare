@@ -2,6 +2,7 @@ package com.example.healthcare.healthcare.controller;
 
 
 //import com.example.healthcare.healthcare.jwt.JwtMethods;
+import com.example.healthcare.healthcare.jwt.JwtService;
 import com.example.healthcare.healthcare.model.UserEntity;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 import com.example.healthcare.healthcare.service.UserService;
@@ -21,6 +22,9 @@ public class UserController {
     @Autowired
     UserService service;
 
+    @Autowired
+    JwtService jwtService;
+
 
     @PostMapping(value = "/signup")
     public String registerUser(@RequestBody UserDto userDto){
@@ -38,15 +42,30 @@ public class UserController {
     }
 
 
-
-
-
     @GetMapping(value = "/find")
     public List<UserDto> findUser(){
 
         List<UserDto> allUser=service.findalluser();
         return allUser;
     }
+
+    @GetMapping(value = "/myprofile")
+    public UserEntity MyProfile(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract token from the "Bearer <token>" format
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        // Extract username from token
+        String username = jwtService.extractUserName(token);
+
+//        // Log for debugging purposes
+//        System.out.println("Username extracted from token: " + username);
+//        System.out.println("Token: " + token);
+
+        // Fetch doctor details using the username
+        return service.myProfile(username);
+    }
+
+
 
 
 

@@ -27,7 +27,7 @@ public class UserEntity {
 
 
     @Column(unique = true, nullable = false)  // Ensures email is unique
-    private String email;
+    private String email; 
 
 
 

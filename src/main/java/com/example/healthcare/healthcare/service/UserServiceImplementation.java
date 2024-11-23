@@ -5,7 +5,6 @@ import com.example.healthcare.healthcare.model.UserEntity;
 import com.example.healthcare.healthcare.repository.UserRepository;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,6 +37,19 @@ public class UserServiceImplementation implements UserService {
         userRepository.save(convertValue);
         return "Registration Successfully";
     }
+
+
+    public UserEntity myProfile(String username) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Fetch user entity by username
+        UserEntity user = userRepository.findByUsername(username);
+        System.out.println(user);
+
+        return user;
+    }
+
+
 
     @Override
     public String registerAllUser(List<UserDto> list) {

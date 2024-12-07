@@ -48,6 +48,7 @@ public class SecurityConfig {
                return http.build();
     }
 ////
+    // Bean is a factory pattern
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

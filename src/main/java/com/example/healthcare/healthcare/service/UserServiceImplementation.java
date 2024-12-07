@@ -1,10 +1,13 @@
 package com.example.healthcare.healthcare.service;
 
 import com.example.healthcare.healthcare.jwt.JwtService;
+import com.example.healthcare.healthcare.model.DoctorEntity;
 import com.example.healthcare.healthcare.model.UserEntity;
+import com.example.healthcare.healthcare.repository.DoctorRepository;
 import com.example.healthcare.healthcare.repository.UserRepository;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hibernate.sql.results.DomainResultCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +25,8 @@ public class UserServiceImplementation implements UserService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    DoctorRepository doctorRepository;
 
     @Autowired
     AuthenticationManager authManager;
@@ -32,9 +37,20 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public String registerUser(UserDto userDto) {
-        ObjectMapper mapper=new ObjectMapper();
-        UserEntity convertValue = mapper.convertValue(userDto,UserEntity.class);
+        // Convert UserDto to UserEntity
+        ObjectMapper mapper = new ObjectMapper();
+        UserEntity convertValue = mapper.convertValue(userDto, UserEntity.class);
         userRepository.save(convertValue);
+
+        if ("doctor".equals(convertValue.getRole())) {
+            // Create a new DoctorEntity for the doctor role
+            DoctorEntity doctorEntity = new DoctorEntity();
+            doctorEntity.setId(convertValue.getId());  // Set the same ID from UserEntity
+
+            // Save the doctor in the doctor table
+            doctorRepository.save(doctorEntity);
+        }
+
         return "Registration Successfully";
     }
 

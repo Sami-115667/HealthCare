@@ -1,6 +1,7 @@
 package com.example.healthcare.healthcare.config;
 
 import com.example.healthcare.healthcare.jwt.JwtFilter;
+import org.apache.catalina.filters.CorsFilter;
 import org.hibernate.query.sqm.internal.NoParamSqmCopyContext;
 import org.slf4j.helpers.NOP_FallbackServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 
 @Configuration
@@ -39,6 +44,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
          http.csrf(customizer -> customizer.disable());
+         http.cors(Customizer.withDefaults());
                http .authorizeHttpRequests(request -> request.requestMatchers("api/user/login","/api/user/signup")
                        .permitAll().anyRequest().authenticated());
                http.formLogin(Customizer.withDefaults());
@@ -85,6 +91,21 @@ public class SecurityConfig {
 //        return new InMemoryUserDetailsManager(user1,admin);
 //    }
 //
+
+
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // React frontend origin
+//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+//        configuration.setAllowCredentials(true); // For cookies or Authorization headers
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return new CorsFilter();
+//    }
 
 
 

@@ -5,23 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "doctor")
-public class DoctorEntity {
+@Table(name = "schedule")
+public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Primary key for the doctor table
+    private Long id; // Primary key for the schedule table
 
     private Long doctorId;
 
-    private String description; // Additional description about the doctor
-    private double fees; // Consultation fees for the doctor
-
-
+    private  String Sun;
+    private  String Mon;
+    private  String Tue;
+    private  String Wed;
+    private  String Thu;
+    private  String Fri;
+    private  String Sat;
 }

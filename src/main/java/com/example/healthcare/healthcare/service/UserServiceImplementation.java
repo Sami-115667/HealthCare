@@ -2,8 +2,10 @@ package com.example.healthcare.healthcare.service;
 
 import com.example.healthcare.healthcare.jwt.JwtService;
 import com.example.healthcare.healthcare.model.DoctorEntity;
+import com.example.healthcare.healthcare.model.Schedule;
 import com.example.healthcare.healthcare.model.UserEntity;
 import com.example.healthcare.healthcare.repository.DoctorRepository;
+import com.example.healthcare.healthcare.repository.ScheduleRepository;
 import com.example.healthcare.healthcare.repository.UserRepository;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +29,8 @@ public class UserServiceImplementation implements UserService {
     UserRepository userRepository;
     @Autowired
     DoctorRepository doctorRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     @Autowired
     AuthenticationManager authManager;
@@ -45,10 +49,13 @@ public class UserServiceImplementation implements UserService {
         if ("doctor".equals(convertValue.getRole())) {
             // Create a new DoctorEntity for the doctor role
             DoctorEntity doctorEntity = new DoctorEntity();
-            doctorEntity.setId(convertValue.getId());  // Set the same ID from UserEntity
+            doctorEntity.setDoctorId(convertValue.getId());// Set the same ID from UserEntity
+            Schedule schedule= new Schedule();
+            schedule.setDoctorId(convertValue.getId());
 
             // Save the doctor in the doctor table
             doctorRepository.save(doctorEntity);
+            scheduleRepository.save(schedule);
         }
 
         return "Registration Successfully";

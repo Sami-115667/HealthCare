@@ -2,6 +2,8 @@ package com.example.healthcare.healthcare.controller;
 
 
 import com.example.healthcare.healthcare.model.DoctorEntity;
+import com.example.healthcare.healthcare.model.DoctorScheduleRequest;
+import com.example.healthcare.healthcare.model.Schedule;
 import com.example.healthcare.healthcare.service.DoctorService;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +48,11 @@ public class DoctorController {
 
 
     @PutMapping("/booking_doctor/{doctorId}")
-    public String updateDoctor(@PathVariable String doctorId, @RequestBody DoctorEntity doctorEntity) {
+    public String updateDoctor(@RequestParam(required = false) String doctorId, @RequestBody DoctorScheduleRequest doctorScheduleRequest) {
 
-
-
-        return doctorServices.updateDoctorInformation(doctorId,doctorEntity);
+        DoctorEntity doctorEntity = doctorScheduleRequest.getDoctor();
+        Schedule schedule = doctorScheduleRequest.getSchedule();
+        return doctorServices.updateDoctorInformation(doctorId,doctorEntity,schedule);
     }
 
 

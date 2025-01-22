@@ -3,7 +3,10 @@ package com.example.healthcare.healthcare.service;
 import com.example.healthcare.healthcare.model.PrescriptionEntity;
 import com.example.healthcare.healthcare.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class PrescriptionServices implements PrescriptionService{
 
     @Autowired

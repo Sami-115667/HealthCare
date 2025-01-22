@@ -1,6 +1,7 @@
 package com.example.healthcare.healthcare.service;
 
 import com.example.healthcare.healthcare.model.DoctorEntity;
+import com.example.healthcare.healthcare.model.Schedule;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface DoctorService {
 
 
 
-    String updateDoctorInformation(String id, DoctorEntity doctorEntity);
+    String updateDoctorInformation(String id, DoctorEntity doctorEntity, Schedule schedule);
 }

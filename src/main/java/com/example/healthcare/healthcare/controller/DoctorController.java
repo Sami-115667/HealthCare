@@ -4,6 +4,7 @@ package com.example.healthcare.healthcare.controller;
 import com.example.healthcare.healthcare.model.DoctorEntity;
 import com.example.healthcare.healthcare.model.DoctorScheduleRequest;
 import com.example.healthcare.healthcare.model.Schedule;
+import com.example.healthcare.healthcare.repository.DoctorRepository;
 import com.example.healthcare.healthcare.repository.ScheduleRepository;
 import com.example.healthcare.healthcare.service.DoctorService;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
@@ -75,6 +76,26 @@ public class DoctorController {
         }
 
             // Use the 'id' variable in your logic
+
+        return null;
+    }
+
+
+    @Autowired
+    DoctorRepository doctorRepository;
+
+    @GetMapping("/info/{id}")
+    public DoctorEntity getinfo(@RequestParam("id") String id) {
+
+        //Optional<DoctorEntity> existingDoctorOptional= doctorRepository.findByDoctorId(Integer.valueOf(id));
+        Optional<DoctorEntity> existingDoctorOptional1= doctorRepository.findByDoctorId(Integer.valueOf(id));
+        if (existingDoctorOptional1.isPresent()) {
+            DoctorEntity existingDoctor1 = existingDoctorOptional1.get();
+
+            return existingDoctor1;
+        }
+
+        // Use the 'id' variable in your logic
 
         return null;
     }

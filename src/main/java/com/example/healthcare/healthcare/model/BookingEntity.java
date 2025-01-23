@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,21 +28,17 @@ public class BookingEntity {
     @Column(name = "doctor_id")
     private String doctorId;
 
-    @Column(name = "doctor_name")
-    private String doctorName;
-
-    @Column(name = "doctor_expertise")
-    private String doctorExpertise;
-
-    @Column(name = "fees")
-    private double fees;
-
     @Column(name = "appointment_date")
-    private String appointmentDate;
+    private LocalDate appointmentDate;
+
+    @Column(name = "appointment_day")
+    private String appointmentDay;
+
+    @Column(name = "total_slot")
+    private Long totalSlot;
 
     @Column(name = "status")
     private String status ; // Default status
 
-    @Column(name = "remarks")
-    private String remarks;
+
 }

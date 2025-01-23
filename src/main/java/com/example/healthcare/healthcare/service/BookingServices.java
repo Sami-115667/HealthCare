@@ -4,6 +4,7 @@ import com.example.healthcare.healthcare.model.BookingEntity;
 import com.example.healthcare.healthcare.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 
 import java.util.List;
 
@@ -15,8 +16,18 @@ public class BookingServices implements BookingService{
 
     @Override
     public String bookingDoctor(BookingEntity bookingEntity) {
-        bookingRepository.save(bookingEntity);
-        return "Booking Doctor Successfully";
+
+        Long doctorId = Long.parseLong(bookingEntity.getDoctorId());
+        // Count the total bookings for the given date and doctor
+        long totalBookings = bookingRepository.countBookingsByDateAndDoctor(bookingEntity.getAppointmentDate(), doctorId);
+
+        // Check if slots are available
+        if (totalBookings < bookingEntity.getTotalSlot()) {
+            bookingRepository.save(bookingEntity);
+            return "Booking Doctor Successfully";
+        } else {
+            return "No slots available for this date and doctor.";
+        }
     }
 
 

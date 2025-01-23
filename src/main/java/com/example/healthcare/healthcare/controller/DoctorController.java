@@ -64,7 +64,7 @@ public class DoctorController {
 
 
     @GetMapping("/schedule/{id}")
-    public Schedule getSchedule(@PathVariable("id") String id) {
+    public Schedule getSchedule(@RequestParam("id") String id) {
 
         //Optional<DoctorEntity> existingDoctorOptional= doctorRepository.findByDoctorId(Integer.valueOf(id));
         Optional<Schedule> existingDoctorOptional1= scheduleRepository.findByDoctorId(Integer.valueOf(id));

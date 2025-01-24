@@ -22,6 +22,9 @@ public interface BookingRepository extends JpaRepository<BookingEntity, Integer>
 
     BookingEntity findByDoctorIdAndAppointmentDate(String doctorId, LocalDate appointmentDate);
 
+   // BookingEntity findByPatientIdAndAppointmentDate(LocalDate appointmentDate);
+
+
     @Query("SELECT COUNT(b) FROM BookingEntity b WHERE b.appointmentDate = :appointmentDate AND b.doctorId = :doctorId")
     long countBookingsByDateAndDoctor(@Param("appointmentDate") LocalDate appointmentDate, @Param("doctorId") Long doctorId);
 

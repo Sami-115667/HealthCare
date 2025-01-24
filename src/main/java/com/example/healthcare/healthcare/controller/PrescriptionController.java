@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins= "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/doctor")
@@ -27,6 +29,16 @@ public class PrescriptionController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating prescription: " + e.getMessage());
         }
+    }
+
+
+
+
+
+    @GetMapping(value = "/getprescription")
+    public List<PrescriptionEntity> getprescription(@RequestParam String Id) {
+        // Fetch bookings only for the specific doctor
+        return service.getPrescriptionByPatientId(Id);  // Calling service method
     }
 
 

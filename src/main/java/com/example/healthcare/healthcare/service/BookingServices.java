@@ -63,7 +63,7 @@ public class BookingServices implements BookingService{
 
     public List<BookingEntity> getBookingsByPatientId(String patientId) {
         // Call the repository to fetch bookings for a particular doctor
-        return bookingRepository.findByPatientId(patientId);
+        return bookingRepository.findByPatientIdInData(patientId);
     }
 
 

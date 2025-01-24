@@ -12,10 +12,14 @@ public class PrescriptionServices implements PrescriptionService{
     @Autowired
     PrescriptionRepository prescriptionRepository;
 
-    @Override
-    public String prescription(PrescriptionEntity prescriptionEntity) {
-        prescriptionRepository.save(prescriptionEntity);
-        return "Booking Doctor Successfully";
+    public void savePrescription(PrescriptionEntity prescription) {
+        // Set the issued date to the current date before saving
+        //prescription.setIssuedDate(java.time.LocalDate.now());
+        prescriptionRepository.save(prescription);
     }
 
+    @Override
+    public String prescription(PrescriptionEntity prescriptionEntity) {
+        return null;
+    }
 }

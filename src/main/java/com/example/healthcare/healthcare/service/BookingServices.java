@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookingServices implements BookingService{
@@ -14,23 +16,45 @@ public class BookingServices implements BookingService{
     @Autowired
     BookingRepository bookingRepository;
 
-    @Override
-    public String bookingDoctor(BookingEntity bookingEntity) {
+    public void bookDoctor(String doctorId, String patientId, String patientName, LocalDate appointmentDate, String status) {
+        // Check if a booking exists for the same doctor and appointment date
+        BookingEntity existingBooking = bookingRepository
+                .findByDoctorIdAndAppointmentDate(doctorId, appointmentDate);
 
-        Long doctorId = Long.parseLong(bookingEntity.getDoctorId());
-        // Count the total bookings for the given date and doctor
-        long totalBookings = bookingRepository.countBookingsByDateAndDoctor(bookingEntity.getAppointmentDate(), doctorId);
+        if (existingBooking != null) {
+            // Booking already exists for this doctor and date, add patient data
+            List<Map<String, Object>> data = existingBooking.getData();
+            Map<String, Object> patientData = new HashMap<>();
+            patientData.put("patientId", patientId);
+            patientData.put("patientName", patientName);
+            patientData.put("status", status); // Can add actual time if needed
 
-        // Check if slots are available
-        if (totalBookings < bookingEntity.getTotalSlot()) {
-            bookingRepository.save(bookingEntity);
-            return "Booking Doctor Successfully";
+            data.add(patientData); // Add new patient to the existing list
+            existingBooking.setData(data); // Update the data list in the entity
+
+            bookingRepository.save(existingBooking); // Save updated entity
+
         } else {
-            return "No slots available for this date and doctor.";
+            // If no existing booking, create a new booking
+            BookingEntity newBooking = new BookingEntity();
+            newBooking.setDoctorId(doctorId);
+            newBooking.setAppointmentDate(appointmentDate);
+            Map<String, Object> patientData = new HashMap<>();
+            patientData.put("patientId", patientId);
+            patientData.put("patientName", patientName);
+            patientData.put("status", status); // Can add actual time if needed
+
+            newBooking.setData(List.of(patientData)); // Store the patient data as a list
+
+            bookingRepository.save(newBooking); // Save new booking
         }
     }
 
 
+//    @Override
+//    public String bookingDoctor(BookingEntity bookingEntity) {
+//        return null;
+//    }
 
     public List<BookingEntity> getBookingsByDoctorId(String doctorId) {
         // Call the repository to fetch bookings for a particular doctor

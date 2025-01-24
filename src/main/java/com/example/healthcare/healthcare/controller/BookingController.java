@@ -7,6 +7,7 @@ import com.example.healthcare.healthcare.signuplogin.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -16,10 +17,15 @@ public class BookingController {
     @Autowired
     BookingService service;
 
-    @PostMapping(value = "/booking")
-    public String bookDoctor(@RequestBody BookingEntity bookingEntity){
-        System.out.println(bookingEntity);
-        return service.bookingDoctor(bookingEntity);
+    @PostMapping("/bookDoctor")
+    public void bookDoctor(
+            @RequestParam String doctorId,
+            @RequestParam String patientId,
+            @RequestParam String patientName,
+            @RequestParam LocalDate appointmentDate,
+            @RequestParam String status) {
+
+        service.bookDoctor(doctorId, patientId, patientName, appointmentDate,status);
     }
 
 

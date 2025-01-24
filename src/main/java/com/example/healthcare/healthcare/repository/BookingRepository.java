@@ -12,7 +12,11 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<BookingEntity, Integer> {
 
-    List<BookingEntity> findByDoctorId(String doctor_id);
+    List<BookingEntity> findByDoctorId(String doctorId);
+
+    // Corrected the method to use appointmentDate instead of appointmentDates
+    @Query("SELECT b FROM BookingEntity b WHERE b.doctorId = :doctorId AND b.appointmentDate = :appointmentDate")
+    List<BookingEntity> findByDoctorIdAndAppointmentDates(@Param("doctorId") String doctorId, @Param("appointmentDate") LocalDate appointmentDate);
     @Query(value = "SELECT * FROM booking b WHERE b.data LIKE CONCAT('%\"patientId\":\"', :patientId, '\"%')", nativeQuery = true)
     List<BookingEntity> findByPatientIdInData(@Param("patientId") String patientId);
 

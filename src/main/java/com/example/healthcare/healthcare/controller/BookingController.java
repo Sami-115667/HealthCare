@@ -2,6 +2,7 @@ package com.example.healthcare.healthcare.controller;
 
 
 import com.example.healthcare.healthcare.model.BookingEntity;
+import com.example.healthcare.healthcare.repository.BookingRepository;
 import com.example.healthcare.healthcare.service.BookingService;
 import com.example.healthcare.healthcare.signuplogin.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,20 @@ public class BookingController {
         // Fetch bookings only for the specific doctor
         return service.getBookingsByPatientId(patientId);  // Calling service method
     }
+
+
+
+
+    @GetMapping(value = "/currentday")
+    public List<BookingEntity> getbydate(@RequestParam String id, @RequestParam LocalDate date) {
+
+       // List<BookingEntity> entity= bookingRepository.findByDoctorIdAndAppointmentDates(id, date);
+        // Fetch bookings only for the specific doctor
+        return service.getbyidanddate(id,date);  // Calling service method
+    }
+
+
+
 
 
 

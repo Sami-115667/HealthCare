@@ -42,7 +42,10 @@ public class PrescriptionServices implements PrescriptionService{
             for (Map<String, Object> patientData : data) {
                 if (patientData.containsKey("patientId") && patientData.get("patientId").equals(prescription.getPatientId())) {
                     // Update the patient's status to "Completed" (or any status you need)
-                    patientData.put("status", "Completed");
+                    if (patientData.containsKey("status") && !"Completed".equals(patientData.get("status"))) {
+                        patientData.put("status", "Completed");
+                    }
+
 
                     // Save the updated BookingEntity
                     bookingRepository.save(entity);

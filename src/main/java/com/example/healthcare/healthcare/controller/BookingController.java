@@ -28,6 +28,7 @@ public class BookingController {
             @RequestParam String status) {
 
         service.bookDoctor(doctorId, patientId, patientName, appointmentDate,status);
+
     }
 
 
@@ -53,10 +54,5 @@ public class BookingController {
         // Fetch bookings only for the specific doctor
         return service.getbyidanddate(id,date);  // Calling service method
     }
-
-
-
-
-
 
 }

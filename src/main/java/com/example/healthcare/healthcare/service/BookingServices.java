@@ -16,14 +16,18 @@ public class BookingServices implements BookingService{
     @Autowired
     BookingRepository bookingRepository;
 
-    public void bookDoctor(String doctorId, String patientId, String patientName, LocalDate appointmentDate, String status) {
+    public int bookDoctor(String doctorId, String patientId, String patientName, LocalDate appointmentDate, String status) {
         // Check if a booking exists for the same doctor and appointment date
         BookingEntity existingBooking = bookingRepository
                 .findByDoctorIdAndAppointmentDate(doctorId, appointmentDate);
 
+
+        int serial=0;
+
         if (existingBooking != null) {
             // Booking already exists for this doctor and date, add patient data
             List<Map<String, Object>> data = existingBooking.getData();
+            serial= data.size();
             Map<String, Object> patientData = new HashMap<>();
             patientData.put("patientId", patientId);
             patientData.put("patientName", patientName);
@@ -33,6 +37,7 @@ public class BookingServices implements BookingService{
             existingBooking.setData(data); // Update the data list in the entity
 
             bookingRepository.save(existingBooking); // Save updated entity
+            return serial+1;
 
         } else {
             // If no existing booking, create a new booking
@@ -47,6 +52,7 @@ public class BookingServices implements BookingService{
             newBooking.setData(List.of(patientData)); // Store the patient data as a list
 
             bookingRepository.save(newBooking); // Save new booking
+            return 1;
         }
     }
 

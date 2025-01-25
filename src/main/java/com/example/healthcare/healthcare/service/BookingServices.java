@@ -31,7 +31,9 @@ public class BookingServices implements BookingService{
             Map<String, Object> patientData = new HashMap<>();
             patientData.put("patientId", patientId);
             patientData.put("patientName", patientName);
-            patientData.put("status", status); // Can add actual time if needed
+            patientData.put("status", status);
+            patientData.put("serial", serial+1);
+            // Can add actual time if needed
 
             data.add(patientData); // Add new patient to the existing list
             existingBooking.setData(data); // Update the data list in the entity
@@ -47,7 +49,8 @@ public class BookingServices implements BookingService{
             Map<String, Object> patientData = new HashMap<>();
             patientData.put("patientId", patientId);
             patientData.put("patientName", patientName);
-            patientData.put("status", status); // Can add actual time if needed
+            patientData.put("status", status);
+            patientData.put("serial", serial+1);// Can add actual time if needed
 
             newBooking.setData(List.of(patientData)); // Store the patient data as a list
 

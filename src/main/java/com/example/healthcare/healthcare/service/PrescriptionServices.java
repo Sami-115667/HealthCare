@@ -44,12 +44,13 @@ public class PrescriptionServices implements PrescriptionService{
                     // Update the patient's status to "Completed" (or any status you need)
                     if (patientData.containsKey("status") && !"Completed".equals(patientData.get("status"))) {
                         patientData.put("status", "Completed");
+                        bookingRepository.save(entity);
+                        prescriptionRepository.save(prescription);
                     }
 
 
                     // Save the updated BookingEntity
-                    bookingRepository.save(entity);
-                    prescriptionRepository.save(prescription);
+
                     break;
                 }
             }

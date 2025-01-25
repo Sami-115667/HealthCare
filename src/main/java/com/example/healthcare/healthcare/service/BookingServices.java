@@ -16,7 +16,9 @@ public class BookingServices implements BookingService{
     @Autowired
     BookingRepository bookingRepository;
 
-    public int bookDoctor(String doctorId, String patientId, String patientName, LocalDate appointmentDate, String status) {
+    int highest_serial=2;
+
+    public String bookDoctor(String doctorId, String patientId, String patientName, LocalDate appointmentDate, String status) {
         // Check if a booking exists for the same doctor and appointment date
         BookingEntity existingBooking = bookingRepository
                 .findByDoctorIdAndAppointmentDate(doctorId, appointmentDate);
@@ -35,11 +37,18 @@ public class BookingServices implements BookingService{
             patientData.put("serial", serial+1);
             // Can add actual time if needed
 
-            data.add(patientData); // Add new patient to the existing list
-            existingBooking.setData(data); // Update the data list in the entity
+            if(serial+1<highest_serial){
+                data.add(patientData); // Add new patient to the existing list
+                existingBooking.setData(data); // Update the data list in the entity
 
-            bookingRepository.save(existingBooking); // Save updated entity
-            return serial+1;
+                bookingRepository.save(existingBooking); // Save updated entity
+                return "Serial is added";
+
+            }
+            else
+                return "Serial is exceed";
+
+
 
         } else {
             // If no existing booking, create a new booking
@@ -52,10 +61,18 @@ public class BookingServices implements BookingService{
             patientData.put("status", status);
             patientData.put("serial", serial+1);// Can add actual time if needed
 
-            newBooking.setData(List.of(patientData)); // Store the patient data as a list
+            if(serial+1<highest_serial){
+                newBooking.setData(List.of(patientData)); // Store the patient data as a list
 
-            bookingRepository.save(newBooking); // Save new booking
-            return 1;
+
+                bookingRepository.save(newBooking);
+                return "Serial is added";
+
+            }
+            else
+                return "Serial is exceed";
+          // Save new booking
+
         }
     }
 

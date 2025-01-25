@@ -20,14 +20,14 @@ public class BookingController {
     BookingService service;
 
     @PostMapping("/bookDoctor")
-    public void bookDoctor(
+    public String bookDoctor(
             @RequestParam String doctorId,
             @RequestParam String patientId,
             @RequestParam String patientName,
             @RequestParam LocalDate appointmentDate,
             @RequestParam String status) {
 
-        service.bookDoctor(doctorId, patientId, patientName, appointmentDate,status);
+        return service.bookDoctor(doctorId, patientId, patientName, appointmentDate,status);
 
     }
 
